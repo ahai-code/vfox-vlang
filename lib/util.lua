@@ -2,7 +2,10 @@ local http = require("http")
 local json = require("json")
 local util = {}
 
-util.SOURCE_URL = "https://raw.githubusercontent.com/ahai-code/sdk-sources/main/v.json"
+util.__index = util
+local utilSingleton = setmetatable({}, util)
+utilSingleton.SOURCE_URL = "https://raw.githubusercontent.com/ahai-code/sdk-sources/main/v.json"
+utilSingleton.RELEASES ={}
 
 function util:compare_versions(v1o, v2o)
     local v1 = v1o.version
@@ -33,7 +36,7 @@ end
 function util:getInfo()
     local result = {}
     local resp, err = http.get({
-        url = util.SOURCE_URL
+        url = utilSingleton.SOURCE_URL
     })
     if err ~= nil then
         error("Failed to get information: " .. err)
@@ -56,7 +59,8 @@ function util:getInfo()
             end
         end
 
-        table.insert(result, {version = version,url=url})
+        table.insert(result, {version = version,note=""})
+        table.insert(utilSingleton.RELEASES,{version = version,url=url})
     end
     table.sort(result, function(a, b)
         return util:compare_versions(a,b)
@@ -64,4 +68,4 @@ function util:getInfo()
     return result
 end
 
-return util
+return utilSingleton
