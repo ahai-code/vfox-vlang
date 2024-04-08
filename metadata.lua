@@ -5,7 +5,7 @@ PLUGIN = {}
 --- Plugin name
 PLUGIN.name = "vlang"
 --- Plugin version
-PLUGIN.version = "0.1.1"
+PLUGIN.version = "0.1.2"
 --- Plugin homepage
 PLUGIN.homepage = "https://github.com/ahai-code/vfox-vlang"
 --- Plugin license, please choose a correct license according to your needs.
